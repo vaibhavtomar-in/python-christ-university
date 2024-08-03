@@ -2,6 +2,7 @@ import pyqrcode
 import png
 from pyzbar.pyzbar import decode
 from PIL import Image
+import re
 
 def get_user_input():
     data_dict = {
@@ -12,6 +13,7 @@ def get_user_input():
         "email": input("Enter email: "),
         "phone": input("Enter phone: ")
     }
+    
     return data_dict
 
 def encode_dict_to_qr(data_dict, filename='qr_code.png'):
@@ -71,4 +73,21 @@ def smartScan(username, user_list):
     data_dict = decode_qr_code(username)
     add_user_to_list(data_dict,user_list)
     show_users(user_list)
-    
+
+def validation(data_dict):
+    pattern = re.compile(r'[^a-zA-Z\s]')
+    pattern2 = re.compile(r'r^\d{10}$')
+    pattern3 = re.compile(r'[\s]')
+    pattern4 = re.compile(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+    if (pattern.search(data_dict["name"])):
+        return 1
+    elif (pattern.search(data_dict["role"])):
+        return 2
+    elif (pattern2.search(data_dict["phone"])):
+        return 3
+    elif (pattern3.search(data_dict["username"])):
+        return 4
+    elif (pattern4.search(data_dict["email"])):
+        return 5 
+    else:
+        return 0

@@ -16,6 +16,19 @@ while(True):
     print("* "*20)
     if(option == 1):
         data_dict=UserModule.get_user_input()
+        check = UserModule.validation(data_dict)
+        if(check!=0):
+            if(check==1):
+                print("name")
+            if(check==2):
+                print("role")
+            if(check==3):
+                print("phone")
+            if(check==4):
+                print("username")
+            if(check==5):
+                print("email")
+            continue
         UserModule.encode_dict_to_qr(data_dict,data_dict["username"]+".png")
         print("QR for user ",data_dict["username"]," is generated")
     elif(option == 2):
@@ -34,9 +47,24 @@ while(True):
         email = input("Enter email: ")
         phone = input("Enter phone: ")
         data_dict = UserModule.create_user_dict_lambda(name, gender, username, password, email, phone)
+        check = UserModule.validation(data_dict)
+        if(check!=0):
+            if(check==1):
+                print("invalid name")
+            if(check==2):
+                print("invalid role")
+            if(check==3):
+                print("invalid phone")
+            if(check==4):
+                print("invalid username")
+            if(check==5):
+                print("invalid email")
+            continue
         UserModule.add_user_to_list_lambda(data_dict,users)
     elif(option == 5):
         break
+    else:
+        print("invalid option")
 
 
 
